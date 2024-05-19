@@ -1,0 +1,8 @@
+## Request With CEP Correct
+POST http://localhost:8080/weather HTTP/1.1
+Host: localhost:8080
+Content-Type: application/json
+
+{
+  "cep": "49045707"
+}
