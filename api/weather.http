@@ -1,8 +1,39 @@
-## Request With CEP Correct
+### Request com CEP válido
 POST http://localhost:8080/weather HTTP/1.1
 Host: localhost:8080
 Content-Type: application/json
+Accept-Charset: UTF-8
 
 {
-  "cep": "49045707"
+  "cep": "49045706"
+}
+
+### Requests com CEP inválido (Formato inválido)
+POST http://localhost:8080/weather HTTP/1.1
+Host: localhost:8080
+Content-Type: application/json
+Accept-Charset: UTF-8
+
+{
+  "cep": "27525-yyyy"
+}
+
+### Requests com CEP inválido (Tipo inválido)
+POST http://localhost:8080/weather HTTP/1.1
+Host: localhost:8080
+Content-Type: application/json
+Accept-Charset: UTF-8
+
+{
+  "cep": 123
+}
+
+### Request com CEP inexistente
+POST http://localhost:8080/weather HTTP/1.1
+Host: localhost:8080
+Content-Type: application/json
+Accept-Charset: UTF-8
+
+{
+  "cep": "12345678"
 }

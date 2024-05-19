@@ -77,6 +77,11 @@ func getWeather(w http.ResponseWriter, r *http.Request) {
 	}
 
 	responseViaCEP, err := fetchViaCEP(ctx, cep)
+	if responseViaCEP == nil {
+		httpError(w, http.StatusNotFound, "Can not find ZIP code", err)
+		return
+	}
+
 	if err != nil {
 		httpError(w, http.StatusInternalServerError, "Failed to fetch ViaCEP", err)
 		return
@@ -125,6 +130,10 @@ func fetchViaCEP(ctx context.Context, cep model.CEP) (*model.ResponseViaCEP, err
 	var response model.ResponseViaCEP
 	if err = json.NewDecoder(res.Body).Decode(&response); err != nil {
 		return nil, err
+	}
+
+	if response.Cep == "" {
+		return nil, utils.ErrorNotFoundZipCode
 	}
 
 	return &response, nil

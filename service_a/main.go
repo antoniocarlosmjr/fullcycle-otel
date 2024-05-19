@@ -71,7 +71,7 @@ func getWeather(w http.ResponseWriter, r *http.Request) {
 
 	var cep model.CEP
 	if err = json.Unmarshal(body, &cep); err != nil {
-		httpError(w, http.StatusBadRequest, "Failed to unmarshal request body", err)
+		httpError(w, http.StatusUnprocessableEntity, "Invalid ZIP code", err)
 		return
 	}
 
@@ -82,7 +82,7 @@ func getWeather(w http.ResponseWriter, r *http.Request) {
 
 	response, statusCode, err := requestServiceB(ctx, body)
 	if err != nil {
-		httpError(w, statusCode, "Request to Service B failed", err)
+		httpError(w, http.StatusUnprocessableEntity, utils.ErrInvalidZipCode.Error(), err)
 		return
 	}
 
