@@ -5,6 +5,9 @@ services:
     build:
       context: ./service_a
     container_name: service_a
+    environment:
+      URL_SERVICE_B: http://service_b:8081
+      URL_ZIPKIN: http://zipkin:9411
     ports:
       - "8080:8080"
 
@@ -12,6 +15,8 @@ services:
     build:
       context: ./service_b
     container_name: service_b
+    environment:
+      URL_ZIPKIN: http://zipkin:9411
     ports:
       - "8081:8081"
 

@@ -26,7 +26,7 @@ var (
 
 func main() {
 	var err error
-	cfg, err = config.LoadConfig(".")
+	cfg = config.LoadConfig()
 	if err != nil {
 		log.Fatalf("Failed to load config: %v", err)
 	}
@@ -39,7 +39,7 @@ func setupOpenTelemetry() {
 	ot := infra.NewOpenTel()
 	ot.ServiceName = "Service B"
 	ot.ServiceVersion = "1"
-	ot.ExporterEndpoint = fmt.Sprintf("%s/api/v2/spans", cfg.ExporterUrl)
+	ot.ExporterEndpoint = fmt.Sprintf("%s/api/v2/spans", cfg.UrlZipKin)
 	tracer = ot.GetTracer()
 }
 

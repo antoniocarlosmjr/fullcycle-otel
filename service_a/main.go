@@ -27,7 +27,7 @@ var (
 
 func main() {
 	var err error
-	cfg, err = config.LoadConfig(".")
+	cfg = config.LoadConfig()
 
 	if err != nil {
 		log.Fatalf("Failed to load config: %v", err)
@@ -41,7 +41,7 @@ func setupOpenTelemetry() {
 	ot := infra.NewOpenTel()
 	ot.ServiceName = "Service A"
 	ot.ServiceVersion = "1"
-	ot.ExporterEndpoint = fmt.Sprintf("%s/api/v2/spans", cfg.ExporterUrl)
+	ot.ExporterEndpoint = fmt.Sprintf("%s/api/v2/spans", cfg.UrlZipKin)
 
 	tracer = ot.GetTracer()
 }
@@ -51,7 +51,7 @@ func startServer() {
 	r.Use(otelmux.Middleware("Service A"))
 	r.HandleFunc("/weather", getWeather).Methods("POST")
 
-	log.Printf("Service B URL: %s", cfg.BaseUrl)
+	log.Printf("Service B URL: %s", cfg.UrlServiceB)
 	log.Println("Listening on port :8080")
 
 	if err := http.ListenAndServe(":8080", r); err != nil {
@@ -103,7 +103,7 @@ func requestServiceB(ctx context.Context, body []byte) (*model.ResponseHTTP, int
 	defer span.End()
 
 	client := http.Client{Transport: otelhttp.NewTransport(http.DefaultTransport)}
-	req, err := http.NewRequestWithContext(ctx, "POST", fmt.Sprintf("%s/weather", cfg.BaseUrl), bytes.NewBuffer(body))
+	req, err := http.NewRequestWithContext(ctx, "POST", fmt.Sprintf("%s/weather", cfg.UrlServiceB), bytes.NewBuffer(body))
 	if err != nil {
 		return nil, http.StatusInternalServerError, err
 	}

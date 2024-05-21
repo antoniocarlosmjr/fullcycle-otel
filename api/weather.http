@@ -29,8 +29,8 @@ Accept-Charset: UTF-8
 }
 
 ### Request com CEP inexistente
-POST http://localhost:8080/weather HTTP/1.1
-Host: localhost:8080
+POST http://localhost:8081/weather HTTP/1.1
+Host: localhost:8081
 Content-Type: application/json
 Accept-Charset: UTF-8
 

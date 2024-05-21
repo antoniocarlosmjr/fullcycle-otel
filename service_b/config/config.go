@@ -1,27 +1,15 @@
 package config
 
 import (
-	"github.com/spf13/viper"
+	"os"
 )
 
 type Conf struct {
-	ExporterUrl string `mapstructure:"EXPORTER_URL"`
+	UrlZipKin string `mapstructure:"URL_ZIPKIN"`
 }
 
-func LoadConfig(path string) (*Conf, error) {
-	viper.SetConfigName("app_config")
-	viper.SetConfigType("env")
-	viper.AddConfigPath(path)
-	viper.SetConfigFile(".env")
-	viper.AutomaticEnv()
-	err := viper.ReadInConfig()
-	if err != nil {
-		panic(err)
+func LoadConfig() *Conf {
+	return &Conf{
+		UrlZipKin: os.Getenv("URL_ZIPKIN"),
 	}
-	var cfg *Conf
-	err = viper.Unmarshal(&cfg)
-	if err != nil {
-		panic(err)
-	}
-	return cfg, nil
 }
